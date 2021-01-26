@@ -1,8 +1,13 @@
+using BusinnessLogic.Implementaciones;
+using BusinnessLogic.Interfaces;
+using DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MVC.GlobalErrorHandling;
+using UnitOfWork;
 
 namespace MVC
 {
@@ -18,6 +23,11 @@ namespace MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IProveedorLogic, ProveedorLogic>();
+            services.AddTransient<IClienteLogic, ClienteLogic>();
+            services.AddTransient<IOrdenLogic, OrdenLogic>();
+            services.AddSingleton<IUnitOfWork>(option => new DAUnitOfWork(
+                Configuration.GetConnectionString("Evaluacion_LuckyDB")));
             services.AddControllersWithViews();
         }
 
@@ -30,8 +40,7 @@ namespace MVC
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.ConfigureExceptionHandler();
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -45,7 +54,7 @@ namespace MVC
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Cliente}/{action=Index}/");
             });
         }
     }

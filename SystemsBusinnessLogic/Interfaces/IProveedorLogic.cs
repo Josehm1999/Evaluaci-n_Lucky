@@ -9,6 +9,6 @@ namespace BusinnessLogic.Interfaces
         IEnumerable<Proveedor> ListaPaginadaProveedor(int page, int rows, string busqueda);
         int Insert(Proveedor proveedor);
         bool Update(Proveedor proveedor);
-        bool Delete(Proveedor proveedor);
+        bool Delete(int id);
     }
 }

@@ -11,7 +11,7 @@ namespace BusinnessLogic.Implementaciones
         private readonly IUnitOfWork _unitOfWork;
 
         public OrdenLogic(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
-        public bool Delete(Orden orden)=>  _unitOfWork.Orden.Delete(orden);
+        public bool Delete(int Id)=>  _unitOfWork.Orden.Delete(Id);
 
         public Orden GetById(int ordenId) =>  _unitOfWork.Orden.GetById(ordenId);
 

@@ -10,6 +10,6 @@ namespace BusinnessLogic.Interfaces
         IEnumerable<Cliente> GetList();
         int Insert(Cliente cliente);
         bool Update(Cliente cliente);
-        bool Delete(Cliente cliente);
+        bool Delete(int Id);
     }
 }

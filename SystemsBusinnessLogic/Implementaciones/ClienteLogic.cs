@@ -11,7 +11,7 @@ namespace BusinnessLogic.Implementaciones
         private readonly IUnitOfWork _unitOfWork;
         public ClienteLogic(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
-        public bool Delete(Cliente cliente) => _unitOfWork.Cliente.Delete(cliente);
+        public bool Delete(int Id) => _unitOfWork.Cliente.Delete(Id);
 
         public Cliente GetById(int Id) => _unitOfWork.Cliente.GetById(Id);
 

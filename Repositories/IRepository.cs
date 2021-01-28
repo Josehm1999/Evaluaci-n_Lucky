@@ -4,7 +4,7 @@ namespace Repositories
 {
     public interface IRepository<T>
     {
-        bool Delete(T entity);
+        bool Delete(int Id);
         bool Update(T entity);
         int Insert(T entity);
         IEnumerable<T> GetList();

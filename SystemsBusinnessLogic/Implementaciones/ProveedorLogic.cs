@@ -10,7 +10,7 @@ namespace BusinnessLogic.Implementaciones
     {
         private readonly IUnitOfWork _unitOfWork;
         public ProveedorLogic(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
-        public bool Delete(Proveedor proveedor) => _unitOfWork.Proveedor.Delete(proveedor);
+        public bool Delete(int id) => _unitOfWork.Proveedor.Delete(id);
 
         public Proveedor GetById(int id) => _unitOfWork.Proveedor.GetById(id);
 

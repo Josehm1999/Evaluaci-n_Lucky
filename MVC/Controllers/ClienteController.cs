@@ -25,7 +25,7 @@ namespace MVC.Controllers
             return View();
         }
 
-        
+        [HttpGet]
         private Task<List<Cliente>> GetListAsync()
         {
             List<Cliente> Lista = new List<Cliente>();
@@ -36,11 +36,6 @@ namespace MVC.Controllers
             return Task.Run(() => Lista);
         }
 
-        private Task<Cliente> GetClienteAsync(int id)
-        {
-            Cliente cliente = _logic.GetById(id);
-            return Task.Run(() =>cliente);
-        }
 
         [HttpGet]
         public async Task<ActionResult> ClientesPaginados()
@@ -66,11 +61,14 @@ namespace MVC.Controllers
             return View(cliente);
         }
 
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Upsert(ClienteMVC cliente)
         {
-            if (ModelState.IsValid)
+           /* if (ModelState.IsValid)
             {
                 if (cliente.Id == 0)
                 {
@@ -81,24 +79,23 @@ namespace MVC.Controllers
                     _logic.Update(cliente);
                 }
                 return RedirectToAction("Index");
-            }
+            }*/
             return View(cliente);
         }
-        private Task<bool> DeleteAsync(Cliente cliente)
+        private Task<bool> DeleteAsync(int id)
         {
-            return Task.Run(() => _logic.Delete(cliente));
+            return Task.Run(() => _logic.Delete(id));
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            Cliente cliente = await GetClienteAsync(id);
             
-            if (cliente == null)
+            if (id < 0)
             {
                 return Json(new { success = false, message = "Error al eliminar " });
             }
-            await DeleteAsync(cliente);
+            await DeleteAsync(id);
             return Json(new { success = true, message = "Eliminado exitosamente! " });
         }
     }

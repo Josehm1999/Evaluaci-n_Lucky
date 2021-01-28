@@ -1,7 +1,6 @@
 ﻿using BusinnessLogic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using MVC.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,9 +10,11 @@ namespace MVC.Controllers
     public class ClienteController : Controller
     {
 
+
         private readonly IClienteLogic _logic;
+
         [BindProperty]
-        public ClienteMVC ClienteMVC { get; set;}
+        public Cliente cliente { get; set; }
         public ClienteController(IClienteLogic logic)
         {
             _logic = logic;
@@ -25,16 +26,17 @@ namespace MVC.Controllers
             return View();
         }
 
-        [HttpGet]
+      
         private Task<List<Cliente>> GetListAsync()
         {
             List<Cliente> Lista = new List<Cliente>();
-            foreach (Cliente cliente in _logic.ClientesPaginados(1, 10))
+            foreach (Cliente cliente in _logic.GetList())  //ClientesPaginados(1, 10))
             {
                 Lista.Add(cliente);
             };
             return Task.Run(() => Lista);
         }
+
 
 
         [HttpGet]
@@ -43,11 +45,9 @@ namespace MVC.Controllers
             return Json(new { data = await GetListAsync() });
         }
 
-
-        [HttpGet]
         public IActionResult Upsert(int? id)
         {
-            Cliente cliente= new Cliente();
+            cliente = new Cliente();
             if (id == null)
             {
                 return View(cliente);
@@ -61,42 +61,42 @@ namespace MVC.Controllers
             return View(cliente);
         }
 
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(ClienteMVC cliente)
+        public IActionResult Upsert()
         {
-           /* if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 if (cliente.Id == 0)
                 {
-                    _logic.Insert(cliente);
+                    _logic.InsertCliente(cliente);
                 }
                 else
                 {
-                    _logic.Update(cliente);
+                    _logic.UpdateCliente(cliente);
                 }
                 return RedirectToAction("Index");
-            }*/
+            }
             return View(cliente);
         }
+
         private Task<bool> DeleteAsync(int id)
         {
-            return Task.Run(() => _logic.Delete(id));
+            bool valor = _logic.DeleteCliente(id);
+            return Task.Run(() => valor);
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            
-            if (id < 0)
+            bool valor = await DeleteAsync(id);
+            if (valor)
             {
-                return Json(new { success = false, message = "Error al eliminar " });
+                return Json(new { success = true, message = "Eliminado exitosamente! " });
+                
             }
-            await DeleteAsync(id);
-            return Json(new { success = true, message = "Eliminado exitosamente! " });
+            return Json(new { success = false, message = "Error al eliminar " });
         }
+
     }
 }

@@ -13,10 +13,9 @@ namespace DataAccess
             SqlMapperExtensions.TableNameMapper = (type) => { return $"{type.Name}"; };
             _connectionString = connection;
         }
-        public bool Delete(int id)
+        public bool Delete(T entity)
         {
             using var connection = new SqlConnection(_connectionString);
-            T entity =connection.Get<T>(id);
             return connection.Delete(entity);
         }
 

@@ -10,8 +10,12 @@ namespace BusinnessLogic.Implementaciones
     {
         private readonly IUnitOfWork _unitOfWork;
         public ClienteLogic(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        public bool DeleteCliente(int id) => _unitOfWork.Cliente.DeleteCliente(id);
+        public bool InsertCliente(Cliente cliente) => _unitOfWork.Cliente.InsertCliente(cliente);
 
-        public bool Delete(int Id) => _unitOfWork.Cliente.Delete(Id);
+        public bool UpdateCliente(Cliente cliente) => _unitOfWork.Cliente.UpdateCliente(cliente);
+
+        public bool Delete(Cliente cliente) => _unitOfWork.Cliente.Delete(cliente);
 
         public Cliente GetById(int Id) => _unitOfWork.Cliente.GetById(Id);
 
@@ -22,5 +26,8 @@ namespace BusinnessLogic.Implementaciones
         public bool Update(Cliente cliente) => _unitOfWork.Cliente.Update(cliente);
 
         IEnumerable<ListaCliente> IClienteLogic.ClientesPaginados(int page, int rows) => _unitOfWork.Cliente.ListaPaginadaCliente(page, rows);
+
+        
+       
     }
 }

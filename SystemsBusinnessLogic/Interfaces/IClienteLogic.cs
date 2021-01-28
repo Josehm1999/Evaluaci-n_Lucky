@@ -8,8 +8,8 @@ namespace BusinnessLogic.Interfaces
         Cliente GetById(int Id);
         IEnumerable<ListaCliente> ClientesPaginados(int page, int rows);
         IEnumerable<Cliente> GetList();
-        int Insert(Cliente cliente);
-        bool Update(Cliente cliente);
-        bool Delete(int Id);
+        bool DeleteCliente(int id);
+        bool InsertCliente(Cliente cliente);
+        bool UpdateCliente(Cliente cliente);
     }
 }

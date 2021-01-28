@@ -2,7 +2,6 @@
 using Models;
 using System.Collections.Generic;
 using UnitOfWork;
-using DataAccess;
 
 namespace BusinnessLogic.Implementaciones
 {
@@ -10,7 +9,7 @@ namespace BusinnessLogic.Implementaciones
     {
         private readonly IUnitOfWork _unitOfWork;
         public ProveedorLogic(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
-        public bool Delete(int id) => _unitOfWork.Proveedor.Delete(id);
+        public bool Delete(Proveedor proveedor) => _unitOfWork.Proveedor.Delete(proveedor);
 
         public Proveedor GetById(int id) => _unitOfWork.Proveedor.GetById(id);
 
@@ -19,5 +18,9 @@ namespace BusinnessLogic.Implementaciones
         public IEnumerable<Proveedor> ListaPaginadaProveedor(int page, int rows, string busqueda) => _unitOfWork.Proveedor.ListaPaginadaProveedor(page, rows, busqueda);
 
         public bool Update(Proveedor proveedor) => _unitOfWork.Proveedor.Update(proveedor);
+        public bool DeleteProveedor(int id) => _unitOfWork.Proveedor.DeleteProveedor(id);
+        public bool InsertProveedor(Proveedor proveedor) => _unitOfWork.Proveedor.InsertProveedor(proveedor);
+
+        public bool UpdateProveedor(Proveedor proveedor) => _unitOfWork.Proveedor.UpdateProveedor(proveedor);
     }
 }

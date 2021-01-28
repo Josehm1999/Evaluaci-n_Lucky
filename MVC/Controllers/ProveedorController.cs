@@ -1,9 +1,8 @@
-﻿using BusinnessLogic.Implementaciones;
-using BusinnessLogic.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using BusinnessLogic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MVC.Controllers
 {
@@ -12,88 +11,91 @@ namespace MVC.Controllers
     {
 
         private readonly IProveedorLogic _logic;
+
+        [BindProperty]
+        public Proveedor Proveedor { get; set; }
         public ProveedorController(IProveedorLogic logic)
         {
             _logic = logic;
 
         }
-        // GET: ProveedorController
-        [HttpGet]
-        public ActionResult Index()
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+
+        private Task<List<Proveedor>> GetListAsync()
         {
             List<Proveedor> Lista = new List<Proveedor>();
-            Proveedor proveedor = _logic.GetById(1);
-            Lista.Add(proveedor);
-            return View(Lista);
+            foreach (Proveedor proveedor in _logic.ListaPaginadaProveedor(1,10, ""))  //ClientesPaginados(1, 10))
+            {
+                Lista.Add(proveedor);
+            };
+            return Task.Run(() => Lista);
         }
 
-        // GET: ProveedorController/Details/5
-        public ActionResult Details(int id)
+
+
+        [HttpGet]
+        public async Task<ActionResult> ProveedoresPaginados()
         {
-            return View();
+            return Json(new { data = await GetListAsync() });
         }
 
-        // GET: ProveedorController/Create
-        public ActionResult Create()
+        public IActionResult Upsert(int? id)
         {
-            return View();
+            Proveedor = new Proveedor();
+            if (id == null)
+            {
+                return View(Proveedor);
+            }
+            //update
+            Proveedor = _logic.GetById(id.Value);
+            if (Proveedor == null)
+            {
+                return NotFound();
+            }
+            return View(Proveedor);
         }
 
-        // POST: ProveedorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Upsert()
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                if (Proveedor.Id == 0)
+                {
+                    _logic.InsertProveedor(Proveedor);
+                }
+                else
+                {
+                    _logic.UpdateProveedor(Proveedor);
+                }
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(Proveedor);
         }
 
-        // GET: ProveedorController/Edit/5
-        public ActionResult Edit(int id)
+        private Task<bool> DeleteAsync(int id)
         {
-            return View();
+            bool valor = _logic.DeleteProveedor(id);
+            return Task.Run(() => valor);
         }
 
-        // POST: ProveedorController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
         {
-            try
+            bool valor = await DeleteAsync(id);
+            if (valor)
             {
-                return RedirectToAction(nameof(Index));
+                return Json(new { success = true, message = "Eliminado exitosamente! " });
+
             }
-            catch
-            {
-                return View();
-            }
+            return Json(new { success = false, message = "Error al eliminar " });
         }
 
-        // GET: ProveedorController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ProveedorController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

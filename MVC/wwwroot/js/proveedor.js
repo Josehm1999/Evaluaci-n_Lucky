@@ -4,30 +4,33 @@ $(document).ready(function () {
     loadDataTable();
 });
 
+
 function loadDataTable() {
     dataTable = $('#DT_load').DataTable({
         "ajax": {
-            "url": "/cliente/clientespaginados/",
+            "url": "/proveedor/proveedorespaginados/",
             "type": "GET",
             "datatype": "json",
-            "pagingType": "full_numbers"
+            "pagingType": "full_numbers",
+
         },
         "columns": [
-            { "data": "nombre", "width": "20%" },
-            { "data": "apellido", "width": "20%" },
+            { "data": "nombreEmpresa", "width": "20%" },
+            { "data": "nombreContacto", "width": "20%" },
             { "data": "ciudad", "width": "20%" },
-            { "data": "pais", "width": "20%" }, 
-            { "data": "telefono", "width": "20%" }, 
+            { "data": "pais", "width": "20%" },
+            { "data": "telefono", "width": "20%" },
+            { "data": "fax", "width": "20%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `<div class="text-center">
-                        <a href="/Cliente/Upsert?id=${data}" class='btn btn-success text-white' style='cursor:pointer; width:70px;'>
+                        <a href="/Proveedor/Upsert?id=${data}" class='btn btn-success text-white' style='cursor:pointer; width:70px;'>
                             Editar
                         </a>
                         &nbsp;
                         <a class='btn btn-danger text-white' style='cursor:pointer; width:70px;'
-                            onclick=Delete('/Cliente/Delete?id='+${data})>
+                            onclick=Delete('/Proveedor/Delete?id='+${data})>
                             Borrar
                         </a>
                         </div>`;

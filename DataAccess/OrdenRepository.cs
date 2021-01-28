@@ -14,6 +14,26 @@ namespace DataAccess
             
         }
 
+        public bool DeleteOrden(int id)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@OrdenId", id);
+            using (var connection = new SqlConnection(_connectionString))
+            {
+               
+                    var reader = connection.Execute("dbo.DeleteOrdenById", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                connection.Close();
+                if (reader==1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
+            }
+        }
         public ListaOrden GetOrdenById(int OrdenId)
         {
             var parameters = new DynamicParameters();

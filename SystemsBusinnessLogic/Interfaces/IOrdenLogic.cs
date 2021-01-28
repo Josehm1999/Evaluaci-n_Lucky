@@ -7,7 +7,8 @@ namespace BusinnessLogic.Interfaces
     {
         IEnumerable<ListaOrden> GetOrdenPaginada(int page, int rows);
         ListaOrden GetOrdenById(int orderId);
-        bool Delete(int Id);
+        bool DeleteOrden(int id);
+        bool Delete(Orden orden);
         Orden GetById(int orderId);
         string GetOrdenNumero(int orderId);
     }

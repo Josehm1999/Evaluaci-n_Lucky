@@ -37,5 +37,8 @@ namespace MVC.Controllers
         {
             return Json(new { data = await GetListAsync() });
         }
+
+   
+
     }
 }

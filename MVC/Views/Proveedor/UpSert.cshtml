@@ -1,7 +1,7 @@
-﻿@model Cliente
+﻿@model Proveedor
 
 <br />
-<h2 class="text-info">@(Model.Id != 0 ? "Editar" : "Crear") Cliente</h2>
+<h2 class="text-info">@(Model.Id != 0 ? "Editar" : "Crear") Proveedor</h2>
 <br />
 
 <div class="border container" style="padding:30px;">
@@ -16,20 +16,27 @@
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
-                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                <h4>Empresa</h4>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control", placeholder = "Nombre", autofocus = "autofocus" })
-                    @Html.ValidationMessageFor(x => x.Nombre, null, new { @class = "text-danger" })
+                    @Html.TextBoxFor(x => x.NombreEmpresa, new { @class = "form-control", placeholder = "NombreEmpresa", autofocus = "autofocus" })
+                    @Html.ValidationMessageFor(x => x.NombreEmpresa, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.NombreContacto, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(x => x.Apellido, new { @class = "form-control", placeholder = "Apellido", autofocus = "autofocus" })
-                    @Html.ValidationMessageFor(x => x.Apellido, null, new { @class = "text-danger" })
+                    @Html.TextBoxFor(x => x.NombreContacto, new { @class = "form-control", placeholder = "NombreContacto", autofocus = "autofocus" })
+                    @Html.ValidationMessageFor(x => x.NombreContacto, null, new { @class = "text-danger" })
                 </div>
             </div>
 
+            <div class="form-group">
+                @Html.LabelFor(model => model.TituloContacto, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.TituloContacto, new { @class = "form-control", placeholder = "TituloContacto", autofocus = "autofocus" })
+                    @Html.ValidationMessageFor(x => x.TituloContacto, null, new { @class = "text-danger" })
+                </div>
+            </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Ciudad, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -49,6 +56,13 @@
                 <div class="col-md-10">
                     @Html.TextBoxFor(x => x.Telefono, new { @class = "form-control", placeholder = "Telefono", autofocus = "autofocus" })
                     @Html.ValidationMessageFor(x => x.Telefono, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fax, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Fax, new { @class = "form-control", placeholder = "Fax", autofocus = "autofocus" })
+                    @Html.ValidationMessageFor(x => x.Fax, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group row">
